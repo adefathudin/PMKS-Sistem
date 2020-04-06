@@ -1,0 +1,328 @@
+              
+                <div class="form-group">
+                  <select name="jenis_kelamin" class="form-control" required>
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                  </select>
+                </div>
+
+               
+                
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <input type="text" name='tempat_lahir' class="form-control form-control-user" id="tempat_lahir" placeholder="Tempat Lahir" required >
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="date" name='tanggal_lahir' class="form-control form-control-user" id="tanggal_lahir" placeholder="Tanggal Lahir" required >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control form-control-user" name="alamat" placeholder="Alamat lengkap" required ></textarea>
+                </div>
+                <div id="frm_UploadKTP" class="form-group">                  
+                    <input type="button" class="btn btn-info btn-user btn-block" id="btn_UploadKTP" value="Upload Foto Identitas (KTP/SIM/Kartu Pelajar)"/>
+                </div>
+                <div id="frm_OpenKamera" class="form-group" align="center">
+                    <div id="kamera"></div>
+                    <br>
+                    <input type=button class="btn btn-info" value="Capture" id="btn_capture">
+                </div>
+                <div id="frm_HasilKamera" class="form-group" align="center">    
+                    <div id="hasilKamera" ></div>
+                    Foto Kartu Identitas
+                    <br>
+                    <input type=button class="btn" title="Capture Ulang" value="&#10062" id="btn_recapture"/>
+                    <input type=button class="btn" title="Simpan" value="&#9989" id="btn_save_capture"/>
+                </div>               
+                
+                <div id="frm_UploadProfile" class="form-group">                  
+                    <input type="button" class="btn btn-info btn-user btn-block" id="btn_UploadProfile" value="Upload Foto Profile"/>
+                </div>
+                <div id="frm_OpenKameraProfile" class="form-group" align="center">
+                    <div id="kameraProfile"></div>
+                    <br>
+                    <input type=button class="btn btn-info" value="Capture" id="btn_captureProfile">
+                </div>
+                <div id="frm_HasilKameraProfile" class="form-group" align="center">    
+                    <div id="hasilKameraProfile" ></div>
+                    Foto Profile
+                    <br>
+                    <input type=button class="btn" title="Capture Ulang" value="&#10062" id="btn_recaptureProfile"/>
+                    <input type=button class="btn" title="Simpan" value="&#9989" id="btn_save_captureProfile"/>
+                </div>
+
+                
+  <script type="text/javascript" src="<?php echo base_url('assets/js/webcam.min.js')?>"></script>
+  <!-- Configure a few settings and attach camera -->
+<script type="text/javaScript">
+	$(document).ready(function(){
+    
+    $('#frm_OpenKamera').hide();
+    $('#frm_HasilKamera').hide();
+    $('#frm_OpenKameraProfile').hide();
+    $('#frm_HasilKameraProfile').hide();
+
+    //BUTTON UPLOAD KTP
+		$('#btn_UploadKTP').click(function(){
+      $('#frm_OpenKamera').show();
+      Webcam.set({
+      width: 320,
+      height: 240,
+      image_format: 'jpeg',
+      jpeg_quality: 90
+      });
+      Webcam.attach('#kamera');
+      $('#frm_UploadKTP').hide();
+      }),		
+
+    //BUTTON CAPTURE
+    $('#btn_capture').click(function(){
+      $('#frm_HasilKamera').show();
+      Webcam.snap( function(data_uri) {
+      document.getElementById('hasilKamera').innerHTML = '<img id="imageprevKTP" src="'+data_uri+'"/>';
+      });
+      Webcam.reset();
+      $('#frm_OpenKamera').hide();
+    }),
+
+    //BUTTON RECAPTURE
+    $('#btn_recapture').click(function(){
+      Webcam.set({
+      width: 320,
+      height: 240,
+      image_format: 'jpeg',
+      jpeg_quality: 90
+      });
+      Webcam.attach('#kamera');
+      $('#frm_OpenKamera').show();
+      $('#frm_HasilKamera').hide();
+    }),
+
+    //BUTTON CAPTURE SAVE
+    
+    $('#btn_save_capture').click(function(){
+      $('#btn_recapture').hide();
+      $('#btn_save_capture').hide();
+      Webcam.snap( function(data_uri) {
+        Webcam.upload(data_uri, 'http://localhost/warkop/auth/save_registrasi', function(code, text) {} );
+     } )
+    }),
+
+
+    //BUTTON UPLOAD PROFILE
+		$('#btn_UploadProfile').click(function(){
+      $('#frm_OpenKameraProfile').show();
+      Webcam.set({
+      width: 320,
+      height: 240,
+      image_format: 'jpeg',
+      jpeg_quality: 90
+      });
+      Webcam.attach('#kameraProfile');
+      $('#frm_UploadProfile').hide();
+      }),		
+
+    //BUTTON CAPTURE
+    $('#btn_captureProfile').click(function(){
+      $('#frm_HasilKameraProfile').show();
+      Webcam.snap( function(data_uri) {
+      document.getElementById('hasilKameraProfile').innerHTML = '<img id="imageprevProfile" src="'+data_uri+'"/>';
+      });
+      Webcam.reset();
+      $('#frm_OpenKameraProfile').hide();
+    }),
+
+    //BUTTON RECAPTURE
+    $('#btn_recaptureProfile').click(function(){
+      Webcam.set({
+      width: 320,
+      height: 240,
+      image_format: 'jpeg',
+      jpeg_quality: 90
+      });
+      Webcam.attach('#kameraProfile');
+      $('#frm_OpenKameraProfile').show();
+      $('#frm_HasilKameraProfile').hide();
+    }),
+
+    //BUTTON CAPTURE SAVE
+    $('#btn_save_captureProfile').click(function(){
+      $('#btn_recaptureProfile').hide();
+      $('#btn_save_captureProfile').hide();
+    });    
+
+    //UPLOAD FORM DAN KTP
+     var password = document.getElementById("password"),
+      repassword = document.getElementById("repassword");
+      function validatePassword(){
+        if(password.value != repassword.value) {
+          repassword.setCustomValidity("Password tidak sama");
+          } else {
+          repassword.setCustomValidity('');
+          }
+        }
+        password.onchange = validatePassword;
+        repassword.onkeyup = validatePassword;
+
+  });
+
+</script>
+
+
+-----------------
+
+
+
+      <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+      <li class="nav-item dropdown no-arrow d-sm-none">
+        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-search fa-fw"></i>
+        </a>
+        <!-- Dropdown - Messages -->
+        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+          <form class="form-inline mr-auto w-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li>
+
+      <!-- Nav Item - Alerts -->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <!-- Counter - Alerts -->
+          <span class="badge badge-danger badge-counter">3</span>
+        </a>
+        <!-- Dropdown - Alerts -->
+        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+          <h6 class="dropdown-header">
+            Pemberitahuan
+          </h6>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <div>
+              <div class="small text-gray-500">December 12, 2019</div>
+              <span class="font-weight-bold">A new monthly report is ready to download!</span>
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <div>
+              <div class="small text-gray-500">December 7, 2019</div>
+              $290.29 has been deposited into your account!
+            </div>
+          </a>
+          <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+        </div>
+      </li>
+
+      <!-- Nav Item - Messages -->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-envelope fa-fw"></i>
+          <!-- Counter - Messages -->
+          <span class="badge badge-danger badge-counter">7</span>
+        </a>
+        <!-- Dropdown - Messages -->
+        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+          <h6 class="dropdown-header">
+            Message Center
+          </h6>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+              <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+              <div class="status-indicator bg-success"></div>
+            </div>
+            <div class="font-weight-bold">
+              <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+              <div class="small text-gray-500">Emily Fowler · 58m</div>
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+              <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+              <div class="status-indicator"></div>
+            </div>
+            <div>
+              <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+              <div class="small text-gray-500">Jae Chun · 1d</div>
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+              <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+              <div class="status-indicator bg-warning"></div>
+            </div>
+            <div>
+              <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+              <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+            </div>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+              <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+              <div class="status-indicator bg-success"></div>
+            </div>
+            <div>
+              <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+              <div class="small text-gray-500">Chicken the Dog · 2w</div>
+            </div>
+          </a>
+          <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+        </div>
+      </li>
+
+
+
+
+-----
+
+    <!-- Topbar Search -->
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+      <div class="input-group">
+        <input type="text" class="form-control bg-light border-0 small" placeholder="<?php echo $this->data['title']?>" aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search fa-sm"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    ------------
+
+    
+  <script>
+    var AF = {
+      init: function(){ 
+        var _this = this;
+        $('#updateIdentitas').validate({
+          rules:{
+            //
+          },
+          submitHandler: function(form){
+            var $btn = $(form).find('[type="submit"]');
+            $(form).ajaxSubmit({
+              beforeSubmit: function(){
+                if (!confirm('Update identitas?')){
+                  return false;
+                }
+              },
+              success: function(data){
+                if (data.status){
+                  alert('Update identitas berhasil');
+                } else {
+                  alert(data.message);
+                }
+              }
+            });
+          }
+        });
+
+      }
+    }
+    </script>

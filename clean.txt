@@ -1,0 +1,22 @@
+delete from simpan_grup;
+delete from pinjam_grup;
+delete from grup_user;
+delete from mutasi_rekening;
+delete from topup;
+delete from grup;
+delete from grup_user;
+delete from notifikasi;
+delete from cicilan_pinjaman;
+update rekening set saldo_awal=0,saldo_akhir=500000,saldo_koperasi=0,saldo_beku=0,total_nominal_cash_in=0,total_cash_in=0,total_nominal_cash_out=0,total_cash_out=0;
+update users_detail set type="Basic Service", status_approve="0";
+
+
+
+    /*
+    cek no hp terdaftar
+    */
+
+    } elseif ($this->users_detail_m->get_count(array('nomor_hp'=>$nomor_hp))>0){
+      $this->session->set_flashdata('message', 'No. HP <strong>'.$nomor_hp.'</strong> sudah terdaftar'); 
+      redirect('auth/registrasi');
+    }
