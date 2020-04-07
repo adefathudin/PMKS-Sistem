@@ -10,12 +10,7 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="<?php echo base_url('dashboard') ?>">
-            <i class="fas fa-fw fa-home"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
+    
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="<?php echo base_url('laporan') ?>">

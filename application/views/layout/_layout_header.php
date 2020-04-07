@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $this->data['title']?> - WarungKoperasi</title>
+  <title><?php echo $this->data['title']?> - <?= APP_TITLE ?></title>
 
   <!-- Custom fonts for this template-->
   <link href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css')?>" rel="stylesheet" type="text/css">

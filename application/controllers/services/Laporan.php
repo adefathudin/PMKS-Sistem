@@ -89,12 +89,12 @@ class Laporan extends REST_Controller {
     
     public function list_laporan_verifikasi_get() {
 
-        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => 'Verifikasi']);
+        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => VERIFIKASI]);
 
         if ($list_laporan_dashboard) {
             $output['status'] = true;
             $output['item'] = $list_laporan_dashboard;
-            $output['total_laporan_verifikasi'] = $this->laporan_m->get_count(['status_laporan' => 'Verifikasi']);
+            $output['total_laporan_verifikasi'] = $this->laporan_m->get_count(['status_laporan' => VERIFIKASI]);
         } else {
             $output['status'] = false;
             $output['message'] = $this->laporan_m->get_last_message();
@@ -106,12 +106,12 @@ class Laporan extends REST_Controller {
     
     public function list_laporan_proses_get() {
 
-        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => 'Proses']);
+        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => PROSES]);
 
         if ($list_laporan_dashboard) {
             $output['status'] = true;
             $output['item'] = $list_laporan_dashboard;
-            $output['total_laporan_proses'] = $this->laporan_m->get_count(['status_laporan' => 'Proses']);
+            $output['total_laporan_proses'] = $this->laporan_m->get_count(['status_laporan' => PROSES]);
         } else {
             $output['status'] = false;
             $output['message'] = $this->laporan_m->get_last_message();
@@ -123,16 +123,16 @@ class Laporan extends REST_Controller {
     
     public function list_laporan_follow_up_get() {
 
-        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => 'Follow-Up']);
+        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => FOLLOW_UP]);
 
         if ($list_laporan_dashboard) {
             $output['status'] = true;
             $output['item'] = $list_laporan_dashboard;
-            $output['total_laporan_proses'] = $this->laporan_m->get_count(['status_laporan' => 'Follow-Up']);
+            $output['total_laporan_follow_up'] = $this->laporan_m->get_count(['status_laporan' => FOLLOW_UP]);
         } else {
             $output['status'] = false;
             $output['message'] = $this->laporan_m->get_last_message();
-            $output['total_laporan_proses'] = 0;
+            $output['total_laporan_follow_up'] = 0;
         }
 
         $this->response($output);
@@ -140,12 +140,12 @@ class Laporan extends REST_Controller {
     
     public function list_laporan_selesai_get() {
 
-        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => 'Selesai']);
+        $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => SELESAI]);
 
         if ($list_laporan_dashboard) {
             $output['status'] = true;
             $output['item'] = $list_laporan_dashboard;
-            $output['total_laporan_selesai'] = $this->laporan_m->get_count(['status_laporan' => 'Selesai']);
+            $output['total_laporan_selesai'] = $this->laporan_m->get_count(['status_laporan' => SELESAI]);
         } else {
             $output['status'] = false;
             $output['message'] = $this->laporan_m->get_last_message();
@@ -176,13 +176,52 @@ class Laporan extends REST_Controller {
 
         $id_laporan = $this->post('id_laporan');
         $jenis_status = $this->post('jenis_status');
-        $tanggal_status = 'tanggal_'.str_replace("-", "_", $jenis_status);
+        $jenis_status1 = $this->post('jenis_status');
+        $tindakan = $this->post('tindakan');           
+        $foto_tindakan = $this->post('foto_tindakan');     
+        $upload_path = 'assets/img/laporan/tindakan/';
+        $user_id = $this->session->userdata('user_id');
         
-        $insert_laporan = $this->laporan_m->save(['status_laporan' => 'Follow-Up', $tanggal_status => date("Y-m-d h:i:sa")], $id_laporan);
+        $tanggal_status = 'tanggal_'.str_replace("-", "_", $jenis_status);
+        $_by = str_replace("-", "_", $jenis_status);
+        
+        if ($jenis_status == VERIFIKASI) {
+            $jenis_status = PROSES;
+        } else if ($jenis_status == PROSES) {
+            $jenis_status = FOLLOW_UP;
+        } else if ($jenis_status == FOLLOW_UP) {
+            $jenis_status = SELESAI;
+            $_by = 'proses';
+            $tanggal_status = 'tanggal_selesai';
+        } else {
+            
+        }
+        
+        $this->load->library('upload', [
+            'upload_path' => $upload_path,
+            'allowed_types' => 'jpg|jpeg|png',
+            'file_name' => $user_id . uniqid()
+        ]);
+
+        if (!$this->upload->do_upload('foto_tindakan')) {
+            
+            $data['file_name'] = null;            
+            
+        } else {
+            
+            $data = $this->upload->data();
+        }
+        
+        $insert_laporan = $this->laporan_m->save([
+            'status_laporan' => $jenis_status, 
+            $tanggal_status => date("Y-m-d h:i:sa"),
+            $_by.'_by' => $user_id,
+            'tindakan' => $tindakan, 'foto_tindakan' => base_url().$upload_path . $data['file_name']
+                ], $id_laporan);
 
         if ($insert_laporan) {
             $output['status'] = true;
-            $output['message'] = "Laporan berhasi diverifikasi";
+            $output['message'] = "Laporan berhasi di $jenis_status1";
         } else {
             $output['status'] = false;
             $output['message'] = "Something wrong";

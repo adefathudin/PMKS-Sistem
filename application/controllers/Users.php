@@ -11,7 +11,7 @@ class Users extends MY_Controller {
   
     
     public function index() {
-        $this->data['title'] = 'Posisi Mutasi Saldo';
+        $this->data['title'] = 'Users';
         $this->data['subview'] = 'users/index';
         $this->load->view('_layout_main', $this->data);      
     }

@@ -7,7 +7,7 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link" id="nav-member-tab" data-toggle="tab" href="#nav-petugas" role="tab" aria-controls="nav-member" aria-selected="false"><i class="fa fa-user-nurse"></i> Petugas</a>
                 <a class="nav-item nav-link" id="nav-member-tab" data-toggle="tab" href="#nav-pelapor" role="tab" aria-controls="nav-member" aria-selected="false"><i class="fa fa-user-edit"></i> Pelapor</a>
-                <a class="nav-item nav-link" id="nav-member-tab" data-toggle="modal" href="#" data-target="#buatUser" role="tab" aria-controls="nav-member" aria-selected="false"><i class="fa fa-user-plus"></i> Create User</a>
+                <a class="nav-item nav-link <?php if ($data_user->level != KASATPEL) echo "disabled"; ?>" id="nav-member-tab" data-toggle="modal" href="#" data-target="#buatUser" role="tab" aria-controls="nav-member" aria-selected="false"><i class="fa fa-user-plus"></i> Create User</a>
             </div>
         </nav>
         <br>
@@ -193,7 +193,7 @@
                 var i;
                 for (i = 0; i < data.item.length; i++) {
                     html += '<tr>' +
-                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].id + '"><i class="fa fa-trash"></i> Delete</button></td>' +
+                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].id + '" <?php if ($data_user->level != KASATPEL) echo "disabled"; ?> ><i class="fa fa-trash"></i> Delete</button></td>' +
                             '<td>' + data.item[i].nik + '</td>' +
                             '<td>' +
                             '<a href="<?= base_url() ?>user/' + data.item[i].user_id + '">' +
@@ -225,7 +225,7 @@
                 var i;
                 for (i = 0; i < data.item.length; i++) {
                     html += '<tr>' +
-                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].id + '"><i class="fa fa-trash"></i> Delete</button></td>' +
+                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].id + '" <?php if ($data_user->level != KASATPEL) echo "disabled"; ?> ><i class="fa fa-trash"></i> Delete</button></td>' +
                             '<td>' + data.item[i].nik + '</td>' +
                             '<td>' +
                             '<a href="<?= base_url() ?>user/' + data.item[i].user_id + '">' +

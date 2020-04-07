@@ -65,11 +65,12 @@
       <!-- Nav Item - User Information -->
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+          <span class="mr-2 d-none d-lg-inline text-gray-600">
               <?php
               echo $data_user->nama_lengkap; 
               if ($data_user->status_approve == 1) {
-                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";} ?>
+                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";} ?>              
+                <div class="small"><?= $data_user->level?></div>
           </span>
           <img class="img-profile rounded-circle" src="<?= base_url('assets/img/user/profile/'.$data_user->profil.'')?>">
         </a>
@@ -123,12 +124,4 @@ if ($data_user->verifikasi_nomor_hp == 0){
         str_repeat("*", strlen($data_user->nomor_hp)-4) . substr($data_user->nomor_hp, -4)." </strong>
         </div>";
         }
-
-        if ($data_user->status_approve == '0') {
-          echo "<div class='alert alert-info alert-dismissible'>
-          <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-          <a href='".base_url('user/'.$user_id)."'><li class='fas fa-fw fa-trophy faa-tada animated'></li>
-          Upgrade akun anda menjadi akun premium dan dapatkan saldo sebesar <strong>Rp. 50.000</strong></a>
-          </div>";
-        } 
 ?>

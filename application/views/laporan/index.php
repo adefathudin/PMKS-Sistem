@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<?php $this->load->view('layout/module/_layout_dashboard'); ?>
+<?php $this->load->view('layout/module/_layout_dashboard'); 
+?>
 
 <hr>
 
@@ -79,7 +80,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <a class="mx-auto btn btn-primary" href="#" data-toggle="modal" data-target="#buatLaporan"><i class="fa fa-plus"></i> Laporkan Kejadian</a>
+                        <a class="mx-auto btn btn-primary  <?php if ($data_user->level != PELAPOR) echo "disabled"; ?> " href="#" data-toggle="modal" data-target="#buatLaporan"><i class="fa fa-plus"></i> Laporkan Kejadian</a>
                     </div>
                 </div> 
             </div>
@@ -144,38 +145,42 @@
     <div class="modal fade" id="detailLaporan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Laporan
-                    </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row  mx-sm-3 mb-2 justify-content-between">
-                        <p class="text-danger"><i class="fa fa-user-clock"></i> Verifikasi</p>
-                        <p class="text-info"><i class="fa fa-running"></i> Proses</p>
-                        <p class="text-success"><i class="fa fa-check"></i> Selesai</p>
+                <form class="form-group frmUpdateStatusLaporan">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Laporan
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row  mx-sm-3 mb-2 justify-content-between">
+                            <p class="text-danger"><i class="fa fa-user-clock"></i> Verifikasi</p>
+                            <p class="text-warning"><i class="fa fa-spinner"></i> Proses</p>
+                            <p class="text-info"><i class="fa fa-running"></i> Follow-Up</p>
+                            <p class="text-success"><i class="fa fa-check"></i> Selesai</p>
 
-                    </div>     
-                    
-                    <div class="progress mx-sm-3 mb-2 progressStatus">
-                        
-                    </div><br>
-                    <table class="table table-striped tblDetailLaporan">
-                        
-                    </table>
-                </div>
+                        </div>     
 
-                <div class="modal-footer">
-                    <form class="frmUpdateStatusLaporan">
+                        <div class="progress mx-sm-3 mb-2 progressStatus">
+
+                        </div><br>
+                        <table class="table table-striped tblDetailLaporan">
+
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+
                         <input type="hidden" name="id_laporan" class="idLaporan">
-                        <input type="hidden" name="jenis_status" class="jenisStatus">
+                        <input type="hidden" name="jenis_status" class="jenisStatus">     
+
                         <div class="form-group text-right btnUpdateStatus"> 
 
                         </div>
-                    </form>
-                </div>    
+                    </div>    
+
+                </form>
             </div>
         </div>
     </div>
@@ -368,7 +373,7 @@
                     $('.list-laporan-follow-up').html(html);
                 } else {
                 }
-                $('.total-laporan-follow-up').text(data.total_laporan_proses);
+                $('.total-laporan-follow-up').text(data.total_laporan_follow_up);
             });
         }
         ;
@@ -435,24 +440,39 @@
                     $('.jenisStatus').val(data.item.status_laporan);
                     
                     var progress_status = "";
+                    var tindakan = "";
+                    
                     $('.btnUpdateStatus').html('');
                     if (data.item.status_laporan == "Verifikasi"){
-                        progress_status = "33";
+                        progress_status = "25";
                         $('.idLaporan').val(data.item.id);
+                        if ('<?= $data_user->level ?>' == '<?= KASATPEL ?>'){
                         $('.btnUpdateStatus').html('<button class="btn-sm btn-primary mb-2 btnUpdateStatusLaporan"> Verifikasi Laporan</button>');
+                        }
                     } else if (data.item.status_laporan == "Proses"){
-                        progress_status = "66";
-                        $('.btnUpdateStatus').html('<button class="btn-sm btn-primary mb-2 btnUpdateStatusLaporan"> Follow-Up</button>');
+                        progress_status = "50";
+                        if ('<?= $data_user->level ?>' == '<?= PETUGAS ?>'){
+                        $('.btnUpdateStatus').html('<button class="btn-sm btn-primary mb-2 btnUpdateStatusLaporan"> Proses Laporan</button>');
+                        }
                     } else if (data.item.status_laporan == "Follow-Up"){
-                        progress_status = "66";
+                        progress_status = "75";
+                        if ('<?= $data_user->level ?>' == '<?= PETUGAS ?>'){
+                        tindakan =  '<tr><th colspan="3" class="text-center bg-gray-300">Tindakan Laporan</th></tr>' +
+                                    '<tr><td colspan="3"><textarea name="tindakan" class="form-control"></textarea></td></tr>' +
+                                    '<tr><td colspan="3"><input type="file" name="foto_tindakan" class="form-control" accept=".png, .jpeg, .jpg,"></td></tr>';
                         $('.btnUpdateStatus').html('<button class="btn-sm btn-primary mb-2 btnUpdateStatusLaporan"> Laporan Telah Diselesaikan</button>');
+                        }
                     } else {
                         progress_status = "100";
+                        tindakan =  '<tr><th colspan="3" class="text-center bg-gray-300">Tindakan Laporan</th></tr>' +
+                                    '<tr><td colspan="3">'+data.item.tindakan+'</td></tr>' +
+                                    '<tr><td colspan="3"><img class="card-img-top" height="340px" src="'+data.item.foto_tindakan+'"></td></tr>';
                     }
                     
                     $('.progressStatus').html('<div class="progress-bar" role="progressbar" style="width: '+progress_status+'%;" aria-valuenow="'+progress_status+'" aria-valuemin="0" aria-valuemax="100">'+progress_status+'%</div>');
                                             
                     html +=  
+                            '<tr><th colspan="3" class="text-center  bg-gray-300">Detail Laporan</th></tr>' +
                             '<tr><td>ID Laporan</td><td>:</td><td>'+data.item.id+'</td></tr>' +
                             '<tr><td>Ketogori</td><td>:</td><td>'+data.item.kategori+'</td></tr>' +
                             '<tr><td>Nama Laporan</td><td>:</td><td>'+data.item.nama_laporan+'</td></tr>' +
@@ -463,16 +483,17 @@
                             '<tr><td>Status</td><td>:</td><td>'+data.item.status_laporan+'</td></tr>' +
                             '<tr><td>Tanggal Verifikasi</td><td>:</td><td>'+data.item.tanggal_verifikasi+'</td></tr>' +
                             '<tr><td>Tanggal Proses</td><td>:</td><td>'+data.item.tanggal_proses+'</td></tr>' +
-                            '<tr><td>Tanggal Follow-Up</td><td>:</td><td>'+data.item.tanggal_follow_up+'</td></tr>' +
                             '<tr><td>Tanggal Selesai</td><td>:</td><td>'+data.item.tanggal_selesai+'</td></tr>' +
-                            '<tr><td colspan="3"><img class="card-img-top" height="240px" src="'+data.item.foto+'"></td></tr>';
+                            '<tr><td colspan="3"><img class="card-img-top" height="340px" src="'+data.item.foto+'"></td></tr>' +  tindakan                      
+                            
+                            ;
                 
                     $('.tblDetailLaporan').html(html);
                 } else {
                     alert(data.message);
                 }
                 })
-            });            
+            });        
             
             $(".frmUpdateStatusLaporan").validate({
             rules: {
@@ -496,6 +517,7 @@
                             list_semua_laporan();
                             list_laporan_verifikasi();
                             list_laporan_proses();
+                            list_laporan_follow_up();
                             list_laporan_selesai();
                             Swal.fire({
                                 position: 'center',
@@ -542,6 +564,7 @@
                         list_semua_laporan();
                         list_laporan_verifikasi();
                         list_laporan_proses();
+                        list_laporan_follow_up();
                         list_laporan_selesai();
                         $('.form-control').val('');
                         $('#buatLaporan').modal('hide');
