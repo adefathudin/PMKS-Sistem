@@ -19,10 +19,6 @@ class Migration_add_table_users_login extends MY_Migration {
             'type' => 'VARCHAR',
             'constraint' => 50
         ),
-        'qrcode' => array(
-            'type' => 'VARCHAR',
-            'constraint' => 32
-        ),
         'password' => array(
             'type' => 'VARCHAR',
             'constraint' => 360

@@ -22,8 +22,6 @@
                                 <th>NIK</th>
                                 <th>Nama Lengkap</th>
                                 <th>Nomor Telepon</th>
-                                <th>Alamat</th>
-                                <th>RT/RW</th>
                             </tr>
                         </thead>          
                         <tbody id="list-petugas"> 
@@ -200,14 +198,12 @@
                             '<img src="<?= base_url() ?>assets/img/user/profile/' + data.item[i].profil + '" alt="Profile Picture" class="img-responsive" style="max-height: 50px; max-width: 50px;"/> ' + data.item[i].nama_lengkap +
                             '</a></td>' +
                             '<td>' + data.item[i].nomor_hp + '</td>' +
-                            '<td>' + data.item[i].alamat + '</td>' +
-                            '<td>' + data.item[i].rt + '/' + data.item[i].rw + '</td>' +
                             '</tr>';
                 }
 
                 $('#list-petugas').html(html);
             } else {
-                alert(data.message);
+                
             }
         });
     }
@@ -239,7 +235,7 @@
 
                 $('#list-pelapor').html(html);
             } else {
-                alert(data.message);
+                
             }
         });
     }

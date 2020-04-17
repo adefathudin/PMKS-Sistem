@@ -31,19 +31,19 @@
             <div class="card-body">
                 <ul class="nav justify-content-center nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#semua_laporan" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-book"></i> Semua Laporan (<span class="total-semua-laporan"></span>)</a>
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#semua_laporan" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-book"></i> Semua Laporan (<span class="total-semua-laporan">0</span>)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" id="profile-tab" data-toggle="tab" href="#verifikasi" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-user-clock"></i> Verifikasi (<span class="total-laporan-verifikasi"></span>)</a>
+                        <a class="nav-link text-danger" id="profile-tab" data-toggle="tab" href="#verifikasi" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-user-clock"></i> Verifikasi (<span class="total-laporan-verifikasi">0</span>)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-warning" id="contact-tab" data-toggle="tab" href="#proses" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-spinner"></i> Proses (<span class="total-laporan-proses"></span>)</a>
+                        <a class="nav-link text-warning" id="contact-tab" data-toggle="tab" href="#proses" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-spinner"></i> Proses (<span class="total-laporan-proses">0</span>)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-info" id="contact-tab" data-toggle="tab" href="#follow-up" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-running"></i> Follow-Up (<span class="total-laporan-follow-up"></span>)</a>
+                        <a class="nav-link text-info" id="contact-tab" data-toggle="tab" href="#follow-up" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-running"></i> Follow-Up (<span class="total-laporan-follow-up">0</span>)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-success" id="contact-tab" data-toggle="tab" href="#selesai" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check"></i> Selesai (<span class="total-laporan-selesai"></span>)</a>
+                        <a class="nav-link text-success" id="contact-tab" data-toggle="tab" href="#selesai" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check"></i> Selesai (<span class="total-laporan-selesai">0</span>)</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent"><br>
