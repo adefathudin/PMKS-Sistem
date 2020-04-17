@@ -32,11 +32,7 @@
                   <div class="d-block d-md-flex justify-content-between mt-4 mt-md-0">
                     <div class="text-center mt-4 mt-md-0">
                       <?php                       
-                      if ($data_user_tmp->user_id != $user_id){
-                        echo"
-                      <button class='btn btn-outline-primary'>Message</button>
-                      <button class='btn btn-outline-primary'>Follow</button>";}
-                      else {
+                      if ($data_user_tmp->user_id == $user_id){
                         echo"
                       <a href='#' data-toggle='modal' data-target='#settingUserModal'>
                       <button class='btn btn-outline-secondary'><i class='fas fa-fw fa-user-edit'></i> Setting</button></a>";
@@ -63,7 +59,7 @@
                       </span>
                     </p>
                     <?php                       
-                      if ($data_user_tmp->user_id == $user_id){
+                      if ($data_user_tmp->user_id == $user_id || $data_user_tmp->level != KASATPEL || $data_user_tmp->level == PETUGAS){
                         echo"    
                         
                     <p class='clearfix'>
@@ -112,11 +108,6 @@
                       <?php echo $data_user_tmp->alamat ?>
                       </span>
                     </p>
-                    
-                    <p class="clearfix text-center">
-                    <img src="<?= base_url('assets/img/user/qrcode/'.$data_user_tmp->qrcode)?>.png" class="img-responsive" height="40%" width="40%"/>
-                    </p>
-                    
                     <?php 
                         }
                   ?>                  
