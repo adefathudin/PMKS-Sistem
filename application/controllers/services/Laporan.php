@@ -6,7 +6,7 @@ class Laporan extends REST_Controller {
 
     function __construct($config = 'rest') {
         parent::__construct($config);
-        $this->load->model(['users_detail_m', 'laporan_m']);
+        $this->load->model(['users_detail_m', 'laporan_m', 'notifikasi_m']);
     }
 
     public function index() {
@@ -60,6 +60,16 @@ class Laporan extends REST_Controller {
         $insert_laporan = $this->laporan_m->save($data_laporan);
 
         if ($insert_laporan) {
+            $this->notifikasi_m->save([
+                'level' => KASATPEL,
+                'judul' => 'Laporan "'.$nama_laporan.'"',
+                'isi'   => 'Laporan baru "'.$nama_laporan.'" membutuhkan verifikasi '.KASATPEL.''                
+            ]);
+            $this->notifikasi_m->save([
+                'user_id' => $report_by,
+                'judul' => 'Laporan "'.$nama_laporan.'"',
+                'isi'   => 'Laporan baru "'.$nama_laporan.'" telah dibuat dan sedang  dilakukan verifikasi oleh '.KASATPEL.''                
+            ]);
             $output['status'] = true;
             $output['message'] = "Laporan berhasil disimpan.";
         } else {
@@ -175,6 +185,7 @@ class Laporan extends REST_Controller {
     public function update_status_laporan_post() {
 
         $id_laporan = $this->post('id_laporan');
+        $nama_laporan = $this->post('nama_laporan');
         $jenis_status = $this->post('jenis_status');
         $jenis_status1 = $this->post('jenis_status');
         $tindakan = $this->post('tindakan');           
@@ -187,8 +198,10 @@ class Laporan extends REST_Controller {
         
         if ($jenis_status == VERIFIKASI) {
             $jenis_status = PROSES;
+            $level = PETUGAS;
         } else if ($jenis_status == PROSES) {
             $jenis_status = FOLLOW_UP;
+            $level = PETUGAS;
         } else if ($jenis_status == FOLLOW_UP) {
             $jenis_status = SELESAI;
             $_by = 'proses';
@@ -220,6 +233,13 @@ class Laporan extends REST_Controller {
                 ], $id_laporan);
 
         if ($insert_laporan) {
+            
+            $this->notifikasi_m->save([
+                'level' => $level,
+                'judul' => 'Laporan "' . $nama_laporan . '"',
+                'isi' => 'Laporan baru "' . $nama_laporan . '" telah di'.$jenis_status1.''
+            ]);
+
             $output['status'] = true;
             $output['message'] = "Laporan berhasi di $jenis_status1";
         } else {

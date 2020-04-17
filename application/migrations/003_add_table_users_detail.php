@@ -21,6 +21,10 @@ class Migration_add_table_users_detail extends MY_Migration {
             'type' => 'VARCHAR',
             'constraint' => 32
         ),
+        'nik' => array(
+            'type' => 'VARCHAR',
+            'constraint' => 15
+        ),
         'nama_lengkap' => array(
             'type' => 'VARCHAR',
             'constraint' => 50
@@ -50,52 +54,28 @@ class Migration_add_table_users_detail extends MY_Migration {
         ),
         'about' => array(
             'type' => 'VARCHAR',
-            'constraint' => '100',
-            'default' => 'Hai, saya telah bergabung dengan WarungKoperasi :)'
+            'constraint' => '100'
         ),
-        'nomor_rekening' => array(
+        'rt' => array(
             'type' => 'VARCHAR',
-            'constraint' => 50
+            'constraint' => '3'
         ),
-        'nama_bank' => array(
+        'rw' => array(
             'type' => 'VARCHAR',
-            'constraint' => 50
-        ),
-        'ktp' => array(
-            'type' => 'VARCHAR',
-            'constraint' => 50,
-            'default' => 'default.png'
+            'constraint' => '3'
         ),
         'profil' => array(
             'type' => 'VARCHAR',
             'constraint' => 50,
             'default' => 'default.png'
         ),
-        'qrcode' => array(
+        'level' => array(
             'type' => 'VARCHAR',
-            'constraint' => 50,
-            'default' => 'default.png'
+            'constraint' => 15
         ),
         'type' => array(
             'type' => 'VARCHAR',
             'constraint' => 30
-        ),
-        'status_approve' => array(
-            'type' => 'VARCHAR',
-            'constraint' => 2,
-            'default' => 0
-        ),
-        'verifikasi_email' => array(
-            'type' => 'BOOLEAN',
-            'default' => 0
-        ),
-        'verifikasi_nomor_hp' => array(
-            'type' => 'BOOLEAN',
-            'default' => 0
-        ),
-        'kode_unik' => array(
-            'type' => 'VARCHAR',
-            'constraint' => 15
         ),
         'joined' => array(
             'type' => 'TIMESTAMP'
@@ -107,23 +87,15 @@ class Migration_add_table_users_detail extends MY_Migration {
         
         $insert = array(
             array(
-                'user_id' => 'a1bdc221d56fddfba202bd448fe4dbfb',
+                'user_id' => md5('kasatpel'),
                 'nama_lengkap'  => 'Admin',
                 'tempat_lahir'  => 'Ciamis',
                 'tanggal_lahir' => '2019-03-27 00:00:00',
                 'jenis_kelamin' => 'L',
-                'email'         => 'root@warungkoperasi.my.id',
+                'email'         => 'kasatpel',
                 'nomor_hp'      => '(021)27030327',
                 'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
-                'about'         => 'Hai, saya adalah admin WarungKoperasi :)',
-                'ktp'           => 'a1bdc221d56fddfba202bd448fe4dbfb_KTP.jpeg',
-                'nomor_rekening'=> '2703010203',
-                'nama_bank'     => 'BRI Syariah',
-                'profil'        => 'a1bdc221d56fddfba202bd448fe4dbfb_PP.png',
-                'type'          => 'Full Service',
-                'status_approve'=> '1',
-                'verifikasi_email'      => '1',
-                'verifikasi_nomor_hp'   => '1'
+                'level'         => KASATPEL
             )
         );
         

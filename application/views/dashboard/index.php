@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+    <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <?php $this->load->view('layout/module/_layout_dashboard'); ?>
 
@@ -59,7 +59,7 @@
             </div>
             
             <div class="card-footer">
-                <a href="<?= base_url('koperasi/grup') ?>" class="btn btn-light btn-block"><i class="fas fa-fw fa-users"></i> Lihat semua grup</a>
+<!--                <a href="<?= base_url('koperasi/grup') ?>" class="btn btn-light btn-block"><i class="fas fa-fw fa-users"></i> Lihat semua grup</a>-->
             </div>
         </div> 
     </div>
@@ -69,7 +69,7 @@
         <div class="col-lg-12 mb-4">
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h5 class="text-center">Grup Popular</h5>
+                    <h5 class="text-center">Action</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">

@@ -2,7 +2,7 @@
 <html>
     
 <head>
-  <title>Login - WarungKoperasi</title>
+  <title>Login - <?= APP_TITLE ?></title>
   <link rel="icon" href="<?php echo base_url('assets/img/favicon.png')?>" type="image/x-icon">
   <link href="<?php echo base_url('assets/css/sb-admin-2.min.css')?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css')?>" rel="stylesheet" type="text/css">
@@ -89,7 +89,8 @@ a {
       <div class="user_card">
         <div class="d-flex justify-content-center">
           <div class="brand_logo_container">
-            <img src="<?php echo base_url('assets/img/logo.png')?>" class="brand_logo" alt="Logo">
+              PMKS
+            <!--<img src="<?php echo base_url('assets/img/logo.png')?>" class="brand_logo" alt="Logo">-->
           </div>
         </div>
         <div class="d-flex justify-content-center form_container">

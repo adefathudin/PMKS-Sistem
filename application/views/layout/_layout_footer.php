@@ -49,7 +49,7 @@
         init: function () {
             setInterval(function () {
                 notifikasi();
-            }, 1773000);
+            }, 3000);
 
 
 
@@ -220,67 +220,61 @@
     //tampil notifikasi
     function notifikasi() {
         var user_id = "<?= $user_id ?>";
+        var level = "<?= $data_user->level?>";
         $.ajax({
             type: 'GET',
-            url: '<?php echo base_url() ?>dashboard/notifikasi',
-            data: {user_id: user_id},
+            url: '<?php echo base_url() ?>services/dashboard/get_notifikasi',
+            <?php if ($data_user->level != PELAPOR){
+                echo "data: {level:level},";
+            } else {
+                echo "data: {user_id: user_id},";
+            } ?>            
             async: true,
-            dataType: 'json',
-            success: function (data) {
-
-                //jika notifikasi yang belum dibaca lebih dari 0
-
-                if (data.length > 0) {
-                    $('#count_notifikasi').text(data.length);
-                } else {
-                    $('#count_notifikasi').text("");
-                }
+            dataType: 'json'}).then(function(data){
                 var html = '';
-                var i;
-                for (i = 0; i < data.length; i++) {
+                if (data.status){
+                    var i;
+                    for (i = 0; i < data.result.length; i++){
+                    
                     html +=
-                            '<a class="dropdown-item d-flex align-items-center detail_notifikasi" data="' + data[i].notifikasi_id + '" href="javascript:;">' +
+                            '<a class="dropdown-item d-flex align-items-center detail_notifikasi" data="' + data.result[i].notifikasi_id + '" href="javascript:;">' +
                             '<div>' +
-                            '<div class="small text-gray-500">' + data[i].tanggal + '</div>' +
-                            '<span class="font-weight-bold">' + data[i].judul + '</span>' +
+                            '<div class="small text-gray-500">' + data.result[i].tanggal + '</div>' +
+                            '<span class="font-weight-bold">' + data.result[i].judul + '</span>' +
                             '</div>' +
                             '</a>';
-                }
+                    }
+                    $('.count-notifikasi').text(data.result.length);
+                } else {
+                    $('.count-notifikasi').text('');
+                }                
                 $('.notifikasi').html(html);
-            }
-        });
-    }
-    ;
-
+            });
+           };
 
     //detail notifikasi modal
     $('.notifikasi').on('click', '.detail_notifikasi', function () {
         var id = $(this).attr('data');
         $.ajax({
             type: 'GET',
-            url: '<?php echo base_url() ?>dashboard/notifikasi_by_id',
-            data: {id: id},
+            url: '<?php echo base_url() ?>services/dashboard/get_detail_notifikasi',
+            data: {notifikasi_id: id},
             async: true,
-            dataType: 'json',
-            success: function (data) {
-                $('#judul_notifikasi_modal').text(data.judul);
-                $('#tanggal_notifikasi_modal').text(data.tanggal);
-                $('#isi_notifikasi_modal').text(data.isi);
-                $('#link_notifikasi_modal').html('<a class="btn btn-light" href="' + data.link + '">Check <i class="fas fa-fw fa-sign-in-alt"></i></a>');
-                $.ajax({
-                    type: 'GET',
-                    url: '<?php echo base_url() ?>dashboard/update_baca_notifikasi',
-                    data: {id: id},
-                    async: true,
-                    dataType: 'json',
-                    success: function (data) {
+            dataType: 'json'}).then(function(data){
+                if (data.status){
+                    var i;
+                    for (i = 0; i < data.result.length; i++){
+                        $('#judul_notifikasi_modal').text(data.result[i].judul);
+                        $('#tanggal_notifikasi_modal').text(data.result[i].tanggal);
+                        $('#isi_notifikasi_modal').text(data.result[i].isi);
                     }
-                });
+            } else {
+                
             }
+            $('#notifikasi_modal').modal('show');
+            });
         });
-        $('#notifikasi_modal').modal('show');
-    });
-
+        
 </script>
 
 

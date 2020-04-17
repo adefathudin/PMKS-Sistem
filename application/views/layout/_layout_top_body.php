@@ -45,7 +45,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-bell fa-fw"></i>
           <!-- Counter - Alerts -->
-          <span class="badge badge-danger badge-counter" id="count_notifikasi"></span>
+          <span class="badge badge-danger badge-counter count-notifikasi"></span>
         </a>
         <!-- Dropdown - Alerts -->
         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -68,8 +68,8 @@
           <span class="mr-2 d-none d-lg-inline text-gray-600">
               <?php
               echo $data_user->nama_lengkap; 
-              if ($data_user->status_approve == 1) {
-                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";} ?>              
+//              if ($data_user->status_approve == 1) {
+//                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";} ?>              
                 <div class="small"><?= $data_user->level?></div>
           </span>
           <img class="img-profile rounded-circle" src="<?= base_url('assets/img/user/profile/'.$data_user->profil.'')?>">
@@ -99,29 +99,4 @@
  <!-- Begin Page Content -->
 <div class="container-fluid">
 
-<!-- Page Heading -->
-<?php
-// Cek apakah terdapat session nama message
-if($this->session->flashdata('message')){
-echo "<div class='alert alert-info alert-dismissible'>
-<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
-.$this->session->flashdata('message')."</div>";
-}
-if ($data_user->verifikasi_email == 0){
-  $email = $this->session->userdata('email');
-  echo "<div class='alert alert-warning alert-dismissible'>
-  <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <strong><i class='fas fa-fw fa-exclamation-triangle'></i></strong> Email anda belum diverifikasi, link verifikasi sudah terkirim ke email <strong>".
-        str_repeat("*", strlen($email)-15) . substr($email, -15)." </strong>
-        </div>";
-        }
-
-if ($data_user->verifikasi_nomor_hp == 0){
-  echo "<div class='alert alert-warning alert-dismissible'>
-        <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <strong><i class='fas fa-fw fa-exclamation-triangle'></i></strong> Nomor HP anda belum diverifikasi. 
-        <a href='verifikasi_hp' class='alert-link'>Klik disini</a> untuk mengirim kode verifikasi ke nomor <strong>".
-        str_repeat("*", strlen($data_user->nomor_hp)-4) . substr($data_user->nomor_hp, -4)." </strong>
-        </div>";
-        }
-?>
+    
