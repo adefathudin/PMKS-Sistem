@@ -33,6 +33,16 @@ class Migration_add_table_users_login extends MY_Migration {
                 'user_id' => md5('kasatpel'),
                 'email'     => 'kasatpel',
                 'password' => md5('123')
+            ),
+            array(
+                'user_id' => md5('petugas'),
+                'email'     => 'petugas',
+                'password' => md5('123')
+            ),
+            array(
+                'user_id' => md5('pelapor'),
+                'email'     => 'pelapor',
+                'password' => md5('123')
             )
         );
         

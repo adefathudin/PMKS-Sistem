@@ -20,12 +20,10 @@ class Auth extends MY_Controller {
         $qrcode = $this->input->get('qrcode');
 
          $login_service = $this->userlib->login($email, $password);
-//            var_dump($login_service);exit;
             if ($login_service){
                     redirect(base_url('laporan'));
             }else{
-                $this->session->set_flashdata('message',  '$this->userlib->get_message()');
-                //$this->session->set_flashdata('message_type', 'error');
+                $this->session->set_flashdata('message',  'user atau password salah');
                     redirect(base_url('auth'));
             }
     }

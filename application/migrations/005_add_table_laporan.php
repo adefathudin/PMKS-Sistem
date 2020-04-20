@@ -8,8 +8,8 @@
  */
 class Migration_add_table_laporan extends MY_Migration {
 
-    protected $_table_name = 'notifikasi';
-    protected $_primary_key = 'notifikasi_id';
+    protected $_table_name = 'laporan';
+    protected $_primary_key = 'id';
     //protected $_index_keys = array('user_name');
     protected $_fields = array(
         'id' => array(

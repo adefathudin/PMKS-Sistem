@@ -96,6 +96,28 @@ class Migration_add_table_users_detail extends MY_Migration {
                 'nomor_hp'      => '(021)27030327',
                 'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
                 'level'         => KASATPEL
+            ),
+            array(
+                'user_id' => md5('petugas'),
+                'nama_lengkap'  => 'Petugas',
+                'tempat_lahir'  => 'Ciamis',
+                'tanggal_lahir' => '2019-03-27 00:00:00',
+                'jenis_kelamin' => 'L',
+                'email'         => 'petugas',
+                'nomor_hp'      => '(021)27030327',
+                'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
+                'level'         => PETUGAS
+            ),
+            array(
+                'user_id' => md5('pelapor'),
+                'nama_lengkap'  => 'Pelapor',
+                'tempat_lahir'  => 'Ciamis',
+                'tanggal_lahir' => '2019-03-27 00:00:00',
+                'jenis_kelamin' => 'L',
+                'email'         => 'perlapor',
+                'nomor_hp'      => '(021)27030327',
+                'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
+                'level'         => PELAPOR
             )
         );
         
