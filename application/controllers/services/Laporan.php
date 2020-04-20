@@ -54,6 +54,7 @@ class Laporan extends REST_Controller {
             'kategori' => $kategori,
             'deskripsi' => $deskripsi,
             'lokasi' => $lokasi,
+            'status_laporan' => VERIFIKASI,
             'foto' => base_url().$upload_path . $data['file_name'],
         ];
 
