@@ -70,6 +70,42 @@ class Users extends REST_Controller {
 
         $this->response($output);
     }
+    
+    public function change_password_put() {
+
+        $user_id = $this->put('user_id');
+        $password_baru = md5($this->put('password_baru'));
+        $ulangi_password_baru = md5($this->put('ulangi_password_baru'));
+        $password_lama = md5($this->put('password_lama'));
+        
+        if ($password_baru != $ulangi_password_baru) {
+            $output['status'] = FALSE;
+            $output['message'] = 'Password tidak sama';
+            $this->response($output);
+        }
+
+        $check = $this->users_login_m->get_count(['user_id' => $user_id, 'password' => $password_lama]);
+
+        if ($check > 0) {
+            $output['status'] = TRUE;
+            $data['password'] = $password_baru;
+        } else {
+            $output['status'] = FALSE;
+            $output['message'] = 'Password lama tidak sama. Mohon cek kembali';
+        }
+
+        if ($output['status']) {
+            $update = $this->users_login_m->save_where($data, ['user_id' => $user_id]);
+            if ($update) {
+                $output['status'] = TRUE;                
+                $output['message'] = 'Berhasil mengganti password';
+            } else {                
+                $output['status'] = false; 
+                $output['message'] = 'Gagal mengganti password';
+            }
+        }
+        $this->response($output);
+    }
 
     public function create_user_post() {
 
@@ -106,7 +142,8 @@ class Users extends REST_Controller {
                 'email' => $email,
                 'rt' => $rt,
                 'rw' => $rw,
-                'level' => $level
+                'level' => $level,
+                'joined' => date("Y-m-d h:i:sa")
             ];
 
             $insert_notifikasi = ['user_id' => $user_id, 'judul' => 'Selamat Datang di PMKS Sistem'];
@@ -125,6 +162,37 @@ class Users extends REST_Controller {
 
             $this->response($output);
         }
+    }
+    
+    public function update_identitas_post() {
+
+        $user_id = $this->post('user_id');
+        $nomor_hp = $this->post('nomor_hp');
+        $tempat_lahir = $this->post('tempat_lahir');
+        $tanggal_lahir = $this->post('tanggal_lahir');
+        $jenis_kelamin = $this->post('jenis_kelamin');
+        $alamat = $this->post('alamat');
+        $about = $this->post('about');
+        
+        $data = ([
+            'nomor_hp' => $nomor_hp,
+            'tempat_lahir'  => $tempat_lahir,
+            'tanggal_lahir' => $tanggal_lahir,
+            'jenis_kelamin' => $jenis_kelamin,
+            'alamat'        => $alamat,
+            'about'         => $about
+        ]);
+        
+        $update = $this->users_detail_m->save_where($data, ['user_id' => $user_id]);
+        if ($update) {
+            $output['status'] = TRUE;
+            $output['message'] = 'Berhasil update identitas';
+        } else {
+            $output['status'] = false;
+            $output['message'] = 'Gagal update identitas';
+        }
+
+        $this->response($output);
     }
 
 }

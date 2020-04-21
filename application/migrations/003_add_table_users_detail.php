@@ -78,7 +78,7 @@ class Migration_add_table_users_detail extends MY_Migration {
             'constraint' => 30
         ),
         'joined' => array(
-            'type' => 'TIMESTAMP'
+            'type' => 'DATETIME'
         )
     );
 
@@ -87,35 +87,38 @@ class Migration_add_table_users_detail extends MY_Migration {
         
         $insert = array(
             array(
-                'user_id' => md5('kasatpel'),
+                'user_id' => md5('kasatpel'),                
+                'nik'  => '123',
                 'nama_lengkap'  => 'Admin',
                 'tempat_lahir'  => 'Ciamis',
                 'tanggal_lahir' => '2019-03-27 00:00:00',
                 'jenis_kelamin' => 'L',
                 'email'         => 'kasatpel',
-                'nomor_hp'      => '(021)27030327',
+                'nomor_hp'      => '08527030327',
                 'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
                 'level'         => KASATPEL
             ),
             array(
-                'user_id' => md5('petugas'),
+                'user_id' => md5('petugas'),               
+                'nik'  => '1234',
                 'nama_lengkap'  => 'Petugas',
                 'tempat_lahir'  => 'Ciamis',
                 'tanggal_lahir' => '2019-03-27 00:00:00',
                 'jenis_kelamin' => 'L',
                 'email'         => 'petugas',
-                'nomor_hp'      => '(021)27030327',
+                'nomor_hp'      => '02127030327',
                 'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
                 'level'         => PETUGAS
             ),
             array(
-                'user_id' => md5('pelapor'),
+                'user_id' => md5('pelapor'),               
+                'nik'  => '12345',
                 'nama_lengkap'  => 'Pelapor',
                 'tempat_lahir'  => 'Ciamis',
                 'tanggal_lahir' => '2019-03-27 00:00:00',
                 'jenis_kelamin' => 'L',
                 'email'         => 'perlapor',
-                'nomor_hp'      => '(021)27030327',
+                'nomor_hp'      => '02127030327',
                 'alamat'        => 'Jl. Raya Kampung Sawah Gg. Kenanga Indah, Jatimurni, Kota Bekasi',
                 'level'         => PELAPOR
             )
