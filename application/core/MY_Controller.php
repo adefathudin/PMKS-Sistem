@@ -22,5 +22,10 @@ class MY_Controller extends CI_Controller {
             $this->data['data_user'] = $data_user;
         }
         
+        if (!$this->session->userdata('has_loggedin')) {
+           //redirect('auth');
+            
+        }
+        
 }}
  
