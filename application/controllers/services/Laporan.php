@@ -205,6 +205,7 @@ class Laporan extends REST_Controller {
             $level = PETUGAS;
         } else if ($jenis_status == FOLLOW_UP) {
             $jenis_status = SELESAI;
+            $level = PETUGAS;
             $_by = 'proses';
             $tanggal_status = 'tanggal_selesai';
         } else {
