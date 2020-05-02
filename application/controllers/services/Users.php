@@ -56,11 +56,11 @@ class Users extends REST_Controller {
     public function delete_user_get() {
 
         $id = $this->input->get('id');
-        $delete_user = $this->users_detail_m->delete($id);
+        $delete_user = $this->users_detail_m->delete_where(['user_id' => $id]);
 
         if ($delete_user) {
 
-            $this->users_login_m->delete($id);
+            $this->users_login_m->delete_where(['user_id' => $id]);
             $output['status'] = true;
             $output['message'] = "Data user berhasil dihapus";
         } else {

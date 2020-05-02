@@ -199,7 +199,7 @@
                 var i;
                 for (i = 0; i < data.item.length; i++) {
                     html += '<tr>' +
-                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].id + '" <?php if ($data_user->level != KASATPEL) echo "disabled"; ?> ><i class="fa fa-trash"></i> Delete</button></td>' +
+                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].user_id + '" <?php if ($data_user->level != KASATPEL) echo "disabled"; ?> ><i class="fa fa-trash"></i> Delete</button></td>' +
                             '<td>' + data.item[i].nik + '</td>' +
                             '<td>' +
                             '<a href="<?= base_url() ?>user/' + data.item[i].user_id + '">' +
@@ -229,7 +229,7 @@
                 var i;
                 for (i = 0; i < data.item.length; i++) {
                     html += '<tr>' +
-                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].id + '" <?php if ($data_user->level != KASATPEL) echo "disabled"; ?> ><i class="fa fa-trash"></i> Delete</button></td>' +
+                            '<td><button class="btn btn-danger delete-user" data-user="' + data.item[i].user_id + '" <?php if ($data_user->level != KASATPEL) echo "disabled"; ?> ><i class="fa fa-trash"></i> Delete</button></td>' +
                             '<td>' + data.item[i].nik + '</td>' +
                             '<td>' +
                             '<a href="<?= base_url() ?>user/' + data.item[i].user_id + '">' +

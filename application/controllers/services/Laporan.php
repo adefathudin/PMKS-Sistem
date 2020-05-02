@@ -43,7 +43,8 @@ class Laporan extends REST_Controller {
         ]);
 
         if (!$this->upload->do_upload('upload')) {
-            $output['message'] = $this->upload->display_errors();
+            $output['message'] = $this->upload->display_errors();            
+            $this->response($output);
         } else {
             $data = $this->upload->data();
         }
