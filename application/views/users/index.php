@@ -25,7 +25,11 @@
                             </tr>
                         </thead>          
                         <tbody id="list-petugas"> 
-
+                            <tr>
+                                <th colspan='4' class='text-center'>
+                                    Data not available
+                                </th>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -45,7 +49,11 @@
                             </tr>
                         </thead>          
                         <tbody id="list-pelapor"> 
-
+                            <tr>
+                                <th colspan='6' class='text-center'>
+                                    Data not available
+                                </th>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

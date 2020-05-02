@@ -2,7 +2,7 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url() ?>">
-        <img height="100%" width="100%" class="img-responsive" src="<?php echo base_url('assets/img/favicon.png') ?>"/>
+        <img class="" src="<?php echo base_url('assets/img/logo1.jpeg') ?>"/>
         <div class="sidebar-brand-text mx-3"><?= APP_TITLE ?></div>
     </a>
 
