@@ -109,7 +109,7 @@
                             <div class="form-group">
                                 <select class="form-control" name="kategori">
                                     <option value="">Kategori</option>
-                                    <option value="OMDK">OMDK</option>
+                                    <option value="ODMK">ODMK</option>
                                     <option value="OT">OT</option>
                                     <option value="Pengemis">Pengemis</option>
                                     <option value="Pengemis">Pengamen</option>
