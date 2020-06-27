@@ -32,7 +32,6 @@
             </div>
             <span class="small modal-header" id="tanggal_notifikasi_modal"></span>
             <div class="modal-body" id="isi_notifikasi_modal"></div>
-            <div class="modal-footer" id="link_notifikasi_modal">
             </div>
         </div>
     </div>

@@ -47,7 +47,7 @@ class Userlib extends Library {
         $this->CI->load->model(['users_login_m']);
         
         //query ke database apakah ada account dengan username dan password yg sesuai
-        $user = $this->CI->users_login_m->get_by(['email' => $email, 'password' => $password], TRUE);
+        $user = $this->CI->users_login_m->get_by(['email' => $email, 'password' => $password, 'blokir' => 0], TRUE);
         
         if (!$user) {
             $this->last_message = 'Username/Password tidak ditemukan.';

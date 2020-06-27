@@ -6,12 +6,24 @@
                     <img src="<?php echo base_url('assets/img/user/profile/' . $data_user_tmp->profil) ?>" alt="profile" class="img-responsive rounded">
                     <div class="mb-3"><br>
                         <h4>
-                            <?php echo $data_user_tmp->nama_lengkap; ?>
+                            <?php
+                            echo $data_user_tmp->nama_lengkap;
+
+                            if ($data_user->verifikasi == 1) {
+
+                                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";
+                            }
+                            ?> 
+
                         </h4>
                         <div class="d-flex align-items-center justify-content-center">
                             <h5 class="mb-0 mr-2 text-muted">
                                 <?php
-                                echo "<div class='small'>" . $data_user_tmp->about . "</div>";
+                                if ($data_user_tmp->level == PELAPOR) {
+                                    echo "<div class='small'>RT" . $data_user_tmp->rt . "/ RW" . $data_user_tmp->rw . "</div>";
+                                } else {
+                                    echo "<div class='small'>" . $data_user_tmp->level . "</div>";
+                                }
                                 ?>
                             </h5>
                         </div>     
@@ -49,7 +61,7 @@
                         <div class="text-primary">
                             <i class="fas fa-fw fa-lock"></i> Semua identitas yang bersifat rahasia dan tidak akan dipublikasikan.
                         </div>
-                    <?php } ?>
+<?php } ?>
                     <!-- DATA INFORMASI -->                   
                     <div class="py-4">
                         <p class="clearfix">
@@ -58,38 +70,38 @@
                                 Joined
                             </span>
                             <span class="float-right text-muted">
-                                <?php echo $data_user_tmp->joined ?>
+                        <?php echo $data_user_tmp->joined ?>
                             </span>
                         </p>
                         <?php
-                        if ($data_user_tmp->user_id == $user_id || $data_user_tmp->level != KASATPEL || $data_user_tmp->level == PETUGAS) {
+                        if ($data_user_tmp->user_id == $user_id || $data_user->level == KASATPEL) {
                             echo"    
                         
-                    <p class='clearfix'>
-                      <span class='float-left'>
-                        <i class='fas fa-fw fa-phone'></i>
-                        No. HP
-                      </span>
-                      <span class='float-right text-muted'>
-                       " . $data_user_tmp->nomor_hp . "
-                      </span>
-                    </p>
-                    <p class='clearfix'>
-                    <span class='float-left'>
-                      <i class='fas fa-fw fa-calendar'></i>
-                      Tempat dan Tanggal Lahir
-                    </span>
-                    <span class='float-right text-muted'>" .
+                                <p class='clearfix'>
+                                  <span class='float-left'>
+                                    <i class='fas fa-fw fa-phone'></i>
+                                    No. HP
+                                  </span>
+                                  <span class='float-right text-muted'>
+                                   " . $data_user_tmp->nomor_hp . "
+                                  </span>
+                                </p>
+                                <p class='clearfix'>
+                                <span class='float-left'>
+                                  <i class='fas fa-fw fa-calendar'></i>
+                                  Tempat dan Tanggal Lahir
+                                </span>
+                                <span class='float-right text-muted'>" .
                             $data_user_tmp->tempat_lahir . ", " . $data_user_tmp->tanggal_lahir . "
-                    </span>
-                    </p>
+                                </span>
+                                </p>
 
-                    <p class='clearfix'>
-                    <span class='float-left'>
-                      <i class='fas fa-fw fa-male'></i>
-                      Jenis Kelamin
-                    </span>
-                    <span class='float-right text-muted'>";
+                                <p class='clearfix'>
+                                <span class='float-left'>
+                                  <i class='fas fa-fw fa-male'></i>
+                                  Jenis Kelamin
+                                </span>
+                                <span class='float-right text-muted'>";
                             if ($data_user_tmp->jenis_kelamin == "L") {
                                 $jk = "<i class='fas text-primary fa-fw fa-mars'></i> Laki-laki";
                             } elseif ($data_user_tmp->jenis_kelamin == "P") {
@@ -98,9 +110,9 @@
                                 $jk = "-";
                             }
                             echo $jk . "
-                    </span>
-                    </p>
-                    ";
+                                </span>
+                                </p>
+                                ";
                             ?>
                             <p class="clearfix">
                                 <span class="float-left">
@@ -108,7 +120,7 @@
                                     Alamat
                                 </span>
                                 <span class="float-right text-muted">
-                                    <?php echo $data_user_tmp->alamat ?>
+                            <?php echo $data_user_tmp->alamat ?>
                                 </span>
                             </p>
                             <?php
@@ -172,10 +184,10 @@
                     <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id') ?>">
                     <div class="form-group mx-sm-3 mb-2">
                         <div class="form-group">
-                            <input type="text" name="nik" class="form-control" readonly id="nominal_topup" placeholder="NIK" value="<?= $data_user->nik ?>">    
+                            <input type="text" name="nik" class="form-control" id="nominal_topup" placeholder="NIK" value="<?= $data_user->nik ?>">    
                         </div>
                         <div class="form-group">
-                            <input type="text" name="nama_lengkap" class="form-control" readonly id="nominal_topup" placeholder="Nama Lengkap" value="<?= $data_user->nama_lengkap ?>">    
+                            <input type="text" name="nama_lengkap" class="form-control"  id="nominal_topup" placeholder="Nama Lengkap" value="<?= $data_user->nama_lengkap ?>">    
                         </div>
                         <div class="form-group">
                             <input type="text" name="email" class="form-control" readonly id="nominal_topup" placeholder="Email" value="<?= $data_user->email ?>">    
@@ -200,15 +212,21 @@
                         </div>
                         <div class="form-group">
                             <textarea class="form-control form-control-user" name="alamat" placeholder="Alamat lengkap" required ><?= $data_user->alamat ?></textarea>
-                        </div>
-                        
-                        <hr>
+                        </div>                        
                         <div class="form-group">
-                            <textarea class="form-control form-control-user" name="about" placeholder="About me" required ><?= $data_user->about ?></textarea>
-                        </div>
+                            <label>KTP : </label>
+                            <input type="file" name="ktp" accept=".jpg,.jpeg,.png" class="form-control">    
+                        </div>    
+
                         <div class="modal-footer">
                             <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary mb-2 btn-save-identitas">Update Data</button>
+                                <?php
+                                if ($data_user_tmp->verifikasi == 1) {
+                                    echo "<div class='text-danger'> Akun anda sudah terverifikasi</div>";
+                                } else {
+                                    echo "<button type='submit' class='btn btn-primary mb-2 btn-save-identitas'>Update Data</button>";
+                                }
+                                ?>
                             </div>
                         </div>   
                     </div>
@@ -262,7 +280,7 @@
             });
         }
     });
-    
+
     $("#updateIdentitas").validate({
         rules: {
         },
@@ -299,12 +317,13 @@
                             timer: 1300
                         })
                     }
-                    $(".btn-save").removeAttr('disabled').html(' User');
+
+                    $(".btn-save-identitas").removeAttr('disabled').html(' Update Data');
 
 
                 }
             });
         }
     });
-    
+
 </script>

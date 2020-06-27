@@ -23,12 +23,12 @@ class Users extends REST_Controller {
 
         $level = $this->get('level');
 
-        $list_pelapor = $this->users_detail_m->get_by(['level' => $level]);
+        $list_pelapor = $this->users_detail_m->get_by(['level' => $level, 'aktif' => 1]);
 
         if ($list_pelapor) {
             $output['status'] = true;
             $output['item'] = $list_pelapor;
-            $output['jumlah'] = $this->users_detail_m->get_count(['level' => $level]);
+            $output['jumlah'] = $this->users_detail_m->get_count(['level' => $level, 'aktif' => 1]);
         } else {
             $output['status'] = false;
             $output['message'] = $this->users_detail_m->get_last_message();
@@ -53,16 +53,17 @@ class Users extends REST_Controller {
         $this->response($output);
     }
 
-    public function delete_user_get() {
+    public function block_user_get() {
 
         $id = $this->input->get('id');
-        $delete_user = $this->users_detail_m->delete_where(['user_id' => $id]);
 
-        if ($delete_user) {
+        $update_user = $this->users_login_m->save_where(['blokir' => 1], ['user_id' => $id]);
 
-            $this->users_login_m->delete_where(['user_id' => $id]);
+        if ($update_user) {
+
+            $this->users_detail_m->save_where(['aktif' => 0], ['user_id' => $id]);
             $output['status'] = true;
-            $output['message'] = "Data user berhasil dihapus";
+            $output['message'] = "User berhasil diblock";
         } else {
             $output['status'] = false;
             $output['message'] = "Something wrong";
@@ -70,14 +71,14 @@ class Users extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function change_password_put() {
 
         $user_id = $this->put('user_id');
         $password_baru = md5($this->put('password_baru'));
         $ulangi_password_baru = md5($this->put('ulangi_password_baru'));
         $password_lama = md5($this->put('password_lama'));
-        
+
         if ($password_baru != $ulangi_password_baru) {
             $output['status'] = FALSE;
             $output['message'] = 'Password tidak sama';
@@ -97,10 +98,10 @@ class Users extends REST_Controller {
         if ($output['status']) {
             $update = $this->users_login_m->save_where($data, ['user_id' => $user_id]);
             if ($update) {
-                $output['status'] = TRUE;                
+                $output['status'] = TRUE;
                 $output['message'] = 'Berhasil mengganti password';
-            } else {                
-                $output['status'] = false; 
+            } else {
+                $output['status'] = false;
                 $output['message'] = 'Gagal mengganti password';
             }
         }
@@ -163,7 +164,7 @@ class Users extends REST_Controller {
             $this->response($output);
         }
     }
-    
+
     public function update_identitas_post() {
 
         $user_id = $this->post('user_id');
@@ -173,16 +174,28 @@ class Users extends REST_Controller {
         $jenis_kelamin = $this->post('jenis_kelamin');
         $alamat = $this->post('alamat');
         $about = $this->post('about');
-        
+        $upload_path_ktp = 'assets/img/user/ktp/';
+
+        $this->load->library('upload', [
+            'upload_path' => $upload_path_ktp,
+            'allowed_types' => 'jpg|jpeg|png',
+            'file_name' => 'KTP-' . $user_id
+        ]);
+
+        if ($this->upload->do_upload('ktp')) {
+            $data = $this->upload->data();
+        }
+
         $data = ([
             'nomor_hp' => $nomor_hp,
-            'tempat_lahir'  => $tempat_lahir,
+            'tempat_lahir' => $tempat_lahir,
             'tanggal_lahir' => $tanggal_lahir,
             'jenis_kelamin' => $jenis_kelamin,
-            'alamat'        => $alamat,
-            'about'         => $about
+            'alamat' => $alamat,
+            'ktp' => $upload_path_ktp . $data['file_name'],
+            'verifikasi' => 2
         ]);
-        
+
         $update = $this->users_detail_m->save_where($data, ['user_id' => $user_id]);
         if ($update) {
             $output['status'] = TRUE;

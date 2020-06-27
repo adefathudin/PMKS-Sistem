@@ -13,7 +13,7 @@ class User extends MY_Controller {
     {
         $user_id = $this->session->userdata('user_id');
         $this->data = array (
-            'title' => 'Ade Fathudin',
+            'title' => '',
             'subview' => 'profile/profile'
         );
         $this->load->view('_layout_main', $this->data,$user_id);

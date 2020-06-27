@@ -9,16 +9,6 @@ class Dashboard extends REST_Controller {
         $this->load->model(['notifikasi_m']);
     }
 
-    public function index() {
-        $user_id = $this->session->userdata('user_id');
-        $this->data['curdate'] = date('d-m-Y h:i:sa');
-        $this->data['saldo'] = $this->rekening_m->get_saldo($user_id);
-        $this->data['laporan_mutasi'] = $this->mutasi_rekening_m->get_mutasi_rekening($user_id);
-        $this->data['title'] = 'Posisi Mutasi Saldo';
-        $this->data['subview'] = 'users/index';
-        $this->load->view('_layout_main', $this->data);
-    }
-
     public function get_notifikasi_get() {
 
         $user_id = $this->get('user_id');
@@ -48,8 +38,8 @@ class Dashboard extends REST_Controller {
 
         if ($result) {
             $output['status'] = true;
-            $output['result'] = $result;            
-            $this->notifikasi_m->save(['baca' => true], $notifikasi_id);
+            $output['result'] = $result;
+            $this->notifikasi_m->save(['baca' => 1], $notifikasi_id);
         } else {
             $output['status'] = false;
             $output['message'] = "Something wrong";

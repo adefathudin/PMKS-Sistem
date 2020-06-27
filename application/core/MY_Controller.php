@@ -12,6 +12,7 @@ class MY_Controller extends CI_Controller {
         }
         
         $this->load->model('users_detail_m');
+        $this->load->model('laporan_m');
         $this->userlib = new Userlib();       
         
         $this->data['user_id'] = $this->session->userdata('user_id');
@@ -23,8 +24,7 @@ class MY_Controller extends CI_Controller {
         }
         
         if (!$this->session->userdata('has_loggedin')) {
-           //redirect('auth');
-            
+           //$this->session->sess_destroy();            
         }
         
 }}

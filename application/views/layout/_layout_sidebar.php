@@ -11,7 +11,20 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     
-
+    <?php
+    if ($data_user->verifikasi == 0) {         
+        echo "<div class='text-danger'>Anda harus verifikasi data terlebih dahulu di menu pofile -> settings!</div>";
+    } else if ($data_user->verifikasi == 2) {         
+        echo "<div class='text-danger'>Identitas diri anda sedang diverifikasi oleh kasatpel!</div>";
+    } else if ($data_user->verifikasi == 1) {         
+    ?>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="<?php echo base_url('dashboard') ?>">
+            <i class="fas fa-fw fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>  
+    
     <li class="nav-item">
         <a class="nav-link collapsed" href="<?php echo base_url('laporan') ?>">
             <i class="fas fa-fw fa-flag"></i>
@@ -25,6 +38,8 @@
             <span>List Users</span>
         </a>
     </li>
+    
+    <?php } ?>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

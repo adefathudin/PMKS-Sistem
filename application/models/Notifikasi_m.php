@@ -1,4 +1,8 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
 class Notifikasi_m extends MY_Model {
 
     protected $_table_name = 'notifikasi';
@@ -8,15 +12,18 @@ class Notifikasi_m extends MY_Model {
     protected $_timestamps = FALSE;
     protected $_timestamps_field = [];
 
-    public function cek_notifikasi($user_id){
+    public function cek_notifikasi($user_id) {
         $this->db->where('user_id', $user_id);
         $this->db->where('baca', 0);
-        $this->db->order_by('notifikasi_id','desc');
+        $this->db->order_by('notifikasi_id', 'desc');
         $result = $this->db->get('notifikasi')->result();
-        return $result;    }
+        return $result;
+    }
 
-    public function cek_notifikasi_by_id($id){
+    public function cek_notifikasi_by_id($id) {
         $this->db->where('notifikasi_id', $id);
         $result = $this->db->get('notifikasi')->row();
-        return $result;    }
+        return $result;
+    }
+
 }

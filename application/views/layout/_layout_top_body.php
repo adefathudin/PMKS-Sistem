@@ -49,7 +49,6 @@
           <!-- ambil data notifikasi dari jquery -->
           <div class="notifikasi"></div>
           
-          <a class="dropdown-item text-center text-gray-500" href="#">Tampilkan semua pemberitahuan</a>
         </div>
       </li>
 
@@ -61,8 +60,8 @@
           <span class="mr-2 d-none d-lg-inline text-gray-600">
               <?php
               echo $data_user->nama_lengkap; 
-//              if ($data_user->status_approve == 1) {
-//                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";} ?>              
+              if ($data_user->verifikasi == 1) {
+                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";} ?>              
                 <div class="small"><?= $data_user->level?></div>
           </span>
           <img class="img-profile rounded-circle" src="<?= base_url('assets/img/user/profile/'.$data_user->profil.'')?>">

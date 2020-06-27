@@ -92,5 +92,5 @@ defined('PELAPOR')            OR define('PELAPOR','pelapor');
 defined('PETUGAS')            OR define('PETUGAS','petugas');
 defined('VERIFIKASI')            OR define('VERIFIKASI','Verifikasi');
 defined('PROSES')            OR define('PROSES','Proses');
-defined('FOLLOW_UP')            OR define('FOLLOW_UP','Follow-Up');
+defined('FOLLOW_UP')            OR define('FOLLOW_UP','Follow_Up');
 defined('SELESAI')            OR define('SELESAI','Selesai');

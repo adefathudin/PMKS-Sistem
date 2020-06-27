@@ -6,7 +6,7 @@ class Laporan extends REST_Controller {
 
     function __construct($config = 'rest') {
         parent::__construct($config);
-        $this->load->model(['users_detail_m', 'laporan_m', 'notifikasi_m']);
+        $this->load->model(['users_detail_m', 'laporan_m', 'notifikasi_m', 'chart_by_date_m', 'chart_by_jenis_m']);
     }
 
     public function index() {
@@ -35,7 +35,7 @@ class Laporan extends REST_Controller {
             $this->response($output);
             return false;
         }
-        
+
         $this->load->library('upload', [
             'upload_path' => $upload_path,
             'allowed_types' => 'jpg|jpeg|png',
@@ -43,7 +43,7 @@ class Laporan extends REST_Controller {
         ]);
 
         if (!$this->upload->do_upload('upload')) {
-            $output['message'] = $this->upload->display_errors();            
+            $output['message'] = $this->upload->display_errors();
             $this->response($output);
         } else {
             $data = $this->upload->data();
@@ -56,21 +56,24 @@ class Laporan extends REST_Controller {
             'deskripsi' => $deskripsi,
             'lokasi' => $lokasi,
             'status_laporan' => VERIFIKASI,
-            'foto' => base_url().$upload_path . $data['file_name'],
+            'foto' => base_url() . $upload_path . $data['file_name']
         ];
 
         $insert_laporan = $this->laporan_m->save($data_laporan);
 
         if ($insert_laporan) {
+
+            $this->chart_by_jenis_m->update_chart_by_jenis($kategori);
+
             $this->notifikasi_m->save([
                 'level' => KASATPEL,
-                'judul' => 'Laporan "'.$nama_laporan.'"',
-                'isi'   => 'Laporan baru "'.$nama_laporan.'" membutuhkan verifikasi '.KASATPEL.''                
+                'judul' => 'Laporan "' . $nama_laporan . '"',
+                'isi' => 'Laporan baru "' . $nama_laporan . '" membutuhkan verifikasi ' . KASATPEL . ''
             ]);
             $this->notifikasi_m->save([
                 'user_id' => $report_by,
-                'judul' => 'Laporan "'.$nama_laporan.'"',
-                'isi'   => 'Laporan baru "'.$nama_laporan.'" telah dibuat dan sedang  dilakukan verifikasi oleh '.KASATPEL.''                
+                'judul' => 'Laporan "' . $nama_laporan . '"',
+                'isi' => 'Laporan baru "' . $nama_laporan . '" telah dibuat dan sedang  dilakukan verifikasi oleh ' . KASATPEL . ''
             ]);
             $output['status'] = true;
             $output['message'] = "Laporan berhasil disimpan.";
@@ -98,7 +101,7 @@ class Laporan extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function list_laporan_verifikasi_get() {
 
         $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => VERIFIKASI]);
@@ -115,7 +118,7 @@ class Laporan extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function list_laporan_proses_get() {
 
         $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => PROSES]);
@@ -132,7 +135,7 @@ class Laporan extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function list_laporan_follow_up_get() {
 
         $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => FOLLOW_UP]);
@@ -149,7 +152,7 @@ class Laporan extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function list_laporan_selesai_get() {
 
         $list_laporan_dashboard = $this->laporan_m->get_by(['status_laporan' => SELESAI]);
@@ -166,11 +169,11 @@ class Laporan extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function detail_laporan_get() {
-        
+
         $id = $this->get('id');
-        
+
         $detail_laporan = $this->laporan_m->get_detail_laporan($id);
 
         if ($detail_laporan) {
@@ -183,21 +186,21 @@ class Laporan extends REST_Controller {
 
         $this->response($output);
     }
-    
+
     public function update_status_laporan_post() {
 
         $id_laporan = $this->post('id_laporan');
         $nama_laporan = $this->post('nama_laporan');
         $jenis_status = $this->post('jenis_status');
         $jenis_status1 = $this->post('jenis_status');
-        $tindakan = $this->post('tindakan');           
-        $foto_tindakan = $this->post('foto_tindakan');     
+        $tindakan = $this->post('tindakan');
+        $foto_tindakan = $this->post('foto_tindakan');
         $upload_path = 'assets/img/laporan/tindakan/';
         $user_id = $this->session->userdata('user_id');
-        
-        $tanggal_status = 'tanggal_'.str_replace("-", "_", $jenis_status);
+
+        $tanggal_status = 'tanggal_' . str_replace("-", "_", $jenis_status);
         $_by = str_replace("-", "_", $jenis_status);
-        
+
         if ($jenis_status == VERIFIKASI) {
             $jenis_status = PROSES;
             $level = PETUGAS;
@@ -212,7 +215,7 @@ class Laporan extends REST_Controller {
         } else {
             
         }
-        
+
         $this->load->library('upload', [
             'upload_path' => $upload_path,
             'allowed_types' => 'jpg|jpeg|png',
@@ -220,27 +223,26 @@ class Laporan extends REST_Controller {
         ]);
 
         if (!$this->upload->do_upload('foto_tindakan')) {
-            
-            $data['file_name'] = null;            
-            
+
+            $data['file_name'] = null;
         } else {
-            
+
             $data = $this->upload->data();
         }
-        
+
         $insert_laporan = $this->laporan_m->save([
-            'status_laporan' => $jenis_status, 
+            'status_laporan' => $jenis_status,
             $tanggal_status => date("Y-m-d h:i:sa"),
-            $_by.'_by' => $user_id,
-            'tindakan' => $tindakan, 'foto_tindakan' => base_url().$upload_path . $data['file_name']
+            $_by . '_by' => $user_id,
+            'tindakan' => $tindakan, 'foto_tindakan' => base_url() . $upload_path . $data['file_name']
                 ], $id_laporan);
 
         if ($insert_laporan) {
-            
+
             $this->notifikasi_m->save([
                 'level' => $level,
                 'judul' => 'Laporan "' . $nama_laporan . '"',
-                'isi' => 'Laporan baru "' . $nama_laporan . '" telah di'.$jenis_status1.''
+                'isi' => 'Laporan baru "' . $nama_laporan . '" telah di' . $jenis_status1 . ''
             ]);
 
             $output['status'] = true;

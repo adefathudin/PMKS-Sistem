@@ -1,4 +1,8 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
 class Users_login_m extends MY_Model {
 
     protected $_table_name = 'users_login';
@@ -8,8 +12,10 @@ class Users_login_m extends MY_Model {
     protected $_timestamps = FALSE;
     protected $_timestamps_field = [];
 
-    public function cek_user($email){
+    public function cek_user($email) {
         $this->db->where('email', $email);
         $result = $this->db->cek_user('user_login')->row();
-        return $result;    }
+        return $result;
+    }
+
 }
